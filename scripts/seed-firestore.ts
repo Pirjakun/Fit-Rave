@@ -109,12 +109,9 @@ const eventInfo: EventInfo = {
     date: "2026-07-16",
     time: "Sepanjang hari",
     dresscode: {
-      male: ["Atasan Putih", "Bawahan Kain", "Ikat Kepala"],
-      female: [
-        "Atasan Putih",
-        "Bawahan Kain",
-        "Diusahakan Rambut di Ikat ala Jawa",
-      ],
+      items: ["Atasan Putih", "Bawahan Kain"],
+      note:
+        "Laki-laki: Ikat Kepala. Perempuan: diusahakan rambut diikat ala Jawa.",
     },
   },
   day2: {
@@ -131,10 +128,7 @@ const eventInfo: EventInfo = {
         status: "confirmed",
         description:
           "Sesi olahraga & wellbeing bertema Beach/Summer Party — seluruh aktivitas segmented dan open activity berlangsung di sesi ini.",
-        dresscode: {
-          male: ["Beachwear Outfit"],
-          female: ["Beachwear Outfit"],
-        },
+        dresscode: { items: ["Beachwear Outfit"], note: "" },
       },
       {
         id: "training",
@@ -143,7 +137,7 @@ const eventInfo: EventInfo = {
         timeEnd: "17:00",
         status: "tbu",
         description: "Detail materi dan lokasi menyusul.",
-        dresscode: { male: [], female: [] },
+        dresscode: { items: [], note: "" },
       },
       {
         id: "dinner",
@@ -152,7 +146,7 @@ const eventInfo: EventInfo = {
         timeEnd: "21:00",
         status: "tbu",
         description: "Detail lokasi dan rangkaian acara menyusul.",
-        dresscode: { male: [], female: [] },
+        dresscode: { items: [], note: "" },
       },
     ],
   },

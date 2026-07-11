@@ -1,6 +1,6 @@
 export interface Dresscode {
-  male: string[];
-  female: string[];
+  items: string[];
+  note: string;
 }
 
 export interface EventAgendaItem {

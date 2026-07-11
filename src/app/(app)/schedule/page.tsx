@@ -21,7 +21,7 @@ function DresscodeSection({
   dresscode: Dresscode;
   variant?: "default" | "inverted";
 }) {
-  if (dresscode.male.length === 0 && dresscode.female.length === 0) {
+  if (dresscode.items.length === 0 && !dresscode.note) {
     return null;
   }
 
@@ -30,7 +30,7 @@ function DresscodeSection({
   const labelClass = isInverted
     ? "text-primary-foreground"
     : "text-foreground";
-  const subLabelClass = isInverted
+  const noteClass = isInverted
     ? "text-primary-foreground/70"
     : "text-muted-foreground";
   const listClass = isInverted
@@ -40,32 +40,16 @@ function DresscodeSection({
   return (
     <div className={`mt-3 flex flex-col gap-2 border-t pt-3 ${borderClass}`}>
       <p className={`text-sm font-semibold ${labelClass}`}>Dresscode</p>
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        {dresscode.male.length > 0 && (
-          <div>
-            <p className={`text-xs font-medium ${subLabelClass}`}>
-              Laki-Laki
-            </p>
-            <ul className={`list-inside list-disc text-sm ${listClass}`}>
-              {dresscode.male.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-        {dresscode.female.length > 0 && (
-          <div>
-            <p className={`text-xs font-medium ${subLabelClass}`}>
-              Perempuan
-            </p>
-            <ul className={`list-inside list-disc text-sm ${listClass}`}>
-              {dresscode.female.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
+      {dresscode.items.length > 0 && (
+        <ul className={`list-inside list-disc text-sm ${listClass}`}>
+          {dresscode.items.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      )}
+      {dresscode.note && (
+        <p className={`text-xs italic ${noteClass}`}>{dresscode.note}</p>
+      )}
     </div>
   );
 }
