@@ -1,0 +1,30 @@
+export interface Dresscode {
+  male: string[];
+  female: string[];
+}
+
+export interface EventAgendaItem {
+  id: string;
+  title: string;
+  timeStart: string;
+  timeEnd: string;
+  status: "confirmed" | "tbu";
+  description: string;
+  dresscode: Dresscode;
+}
+
+export interface EventInfo {
+  day1: {
+    title: string;
+    description: string;
+    date: string;
+    time: string;
+    dresscode: Dresscode;
+  };
+  day2: {
+    title: string;
+    description: string;
+    date: string;
+    agenda: EventAgendaItem[];
+  };
+}

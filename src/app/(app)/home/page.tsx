@@ -1,0 +1,160 @@
+"use client";
+
+import Link from "next/link";
+import { motion } from "motion/react";
+import { CalendarDays, ChevronRight, ClipboardList, Waves } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/badge";
+import { useAuth } from "@/features/auth/context";
+import { useSelectionState } from "@/features/selection/hooks";
+import { useActivity } from "@/features/activities/hooks";
+import { useEventInfo } from "@/features/event/hooks";
+import { getActivityIcon } from "@/features/activities/icon-map";
+
+function SelectionSummary({ employeeId }: { employeeId: string }) {
+  const { data, isLoading, isError } = useSelectionState(employeeId);
+  const activityId = data?.selection?.activityId;
+  const { data: activity } = useActivity(activityId ?? "");
+
+  if (isLoading) {
+    return (
+      <Card>
+        <CardHeader>
+          <Skeleton className="mb-1 size-11 rounded-xl" />
+          <Skeleton className="h-4 w-32" />
+          <Skeleton className="h-3 w-48" />
+        </CardHeader>
+      </Card>
+    );
+  }
+
+  if (isError) {
+    return (
+      <Card className="border border-destructive/30">
+        <CardContent className="py-4 text-sm text-destructive">
+          Gagal memuat status pilihan.
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (!activityId || !activity) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Belum memilih aktivitas</CardTitle>
+          <CardDescription>
+            Pilih salah satu aktivitas segmented sebelum kuota penuh.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Button size="sm" nativeButton={false} render={<Link href="/explore" />}>
+            Explore Aktivitas
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  const Icon = getActivityIcon(activity.icon);
+
+  return (
+    <Card>
+      <CardHeader>
+        <div className="mb-1 flex size-11 items-center justify-center rounded-xl bg-highlight text-highlight-foreground">
+          <Icon className="size-5" />
+        </div>
+        <CardTitle>{activity.name}</CardTitle>
+        <CardDescription>
+          {activity.timeWindow} · {activity.location}
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Badge variant="success">✓ Aktivitas Terpilih</Badge>
+      </CardContent>
+    </Card>
+  );
+}
+
+export default function HomePage() {
+  const { employee } = useAuth();
+  const { data: event } = useEventInfo();
+  const fitRave = event?.day2.agenda[0];
+
+  if (!employee) return null;
+
+  return (
+    <div className="flex flex-col gap-6 px-4 pt-6 pb-2 sm:px-6">
+      <div>
+        <p className="text-sm text-muted-foreground">Halo,</p>
+        <h1 className="font-heading text-2xl font-bold text-foreground">
+          {employee.name.split(" ")[0]}
+        </h1>
+      </div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+      >
+        <Link href="/schedule">
+          <Card className="overflow-hidden bg-linear-to-br from-primary to-secondary text-primary-foreground">
+            <CardContent className="flex items-center gap-3 py-5">
+              <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-white/20">
+                <Waves className="size-5" />
+              </div>
+              <div className="flex-1">
+                <p className="font-heading text-lg font-semibold">
+                  {fitRave?.title ?? "Fit Rave"}
+                </p>
+                <p className="text-sm text-white/85">
+                  {event ? `${event.day2.date} · ` : ""}
+                  {fitRave ? `${fitRave.timeStart}–${fitRave.timeEnd}` : ""}
+                </p>
+              </div>
+              <ChevronRight className="size-5 shrink-0" />
+            </CardContent>
+          </Card>
+        </Link>
+      </motion.div>
+
+      <section className="flex flex-col gap-3">
+        <h2 className="font-heading text-lg font-semibold text-foreground">
+          Status Pilihanmu
+        </h2>
+        <SelectionSummary employeeId={employee.id} />
+      </section>
+
+      <section className="grid grid-cols-2 gap-3">
+        <Link href="/schedule">
+          <Card className="h-full">
+            <CardContent className="flex flex-col items-center gap-2 py-5 text-center">
+              <CalendarDays className="size-6 text-secondary" />
+              <p className="text-sm font-medium text-foreground">
+                Event Schedule
+              </p>
+            </CardContent>
+          </Card>
+        </Link>
+        <Link href="/my-activities">
+          <Card className="h-full">
+            <CardContent className="flex flex-col items-center gap-2 py-5 text-center">
+              <ClipboardList className="size-6 text-secondary" />
+              <p className="text-sm font-medium text-foreground">
+                My Activities
+              </p>
+            </CardContent>
+          </Card>
+        </Link>
+      </section>
+    </div>
+  );
+}
