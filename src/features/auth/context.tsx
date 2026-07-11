@@ -55,6 +55,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(getFirebaseAuth(), async (user) => {
+      // Reset to loading on every callback, not just the initial mount: the
+      // first call (no persisted session) already flips isLoading false, so
+      // without this, layout guards read stale employee=null and bounce a
+      // freshly-signed-in user straight back to /login before loadProfile
+      // resolves.
+      setIsLoading(true);
       if (!user) {
         setEmployee(null);
         setRole(null);
