@@ -18,7 +18,7 @@ const activities: Activity[] = [
     day: 2,
     timeWindow: "Fit Rave · 07.30 - 10.00",
     quota: 50,
-    quotaTaken: 32,
+    quotaTaken: 0,
     tags: ["outdoor", "cardio"],
   },
   {
@@ -31,7 +31,7 @@ const activities: Activity[] = [
     day: 2,
     timeWindow: "Fit Rave · 07.30 - 10.00",
     quota: 40,
-    quotaTaken: 40,
+    quotaTaken: 0,
     tags: ["indoor-outdoor", "strength"],
   },
   {
@@ -44,7 +44,7 @@ const activities: Activity[] = [
     day: 2,
     timeWindow: "Fit Rave · 07.30 - 10.00",
     quota: 20,
-    quotaTaken: 11,
+    quotaTaken: 0,
     tags: ["water", "relax"],
   },
   {
@@ -57,7 +57,7 @@ const activities: Activity[] = [
     day: 2,
     timeWindow: "Fit Rave · 07.30 - 10.00",
     quota: 30,
-    quotaTaken: 18,
+    quotaTaken: 0,
     tags: ["dance", "cardio"],
   },
   {

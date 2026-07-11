@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -170,12 +171,15 @@ function SelectedActivityCard({
         <CardDescription>
           {activity.timeWindow} · {activity.location}
         </CardDescription>
+        <CardAction>
+          <Badge variant="success">✓ Aktivitas Terpilih</Badge>
+        </CardAction>
       </CardHeader>
-      <CardContent className="flex flex-wrap items-center gap-2">
-        <Badge variant="success">✓ Aktivitas Terpilih</Badge>
+      <CardContent className="flex gap-2">
         <Button
           size="sm"
           variant="outline"
+          className="flex-1"
           nativeButton={false}
           render={<Link href={`/explore/${activity.id}`} />}
         >
@@ -184,6 +188,7 @@ function SelectedActivityCard({
         <Button
           size="sm"
           variant="destructive"
+          className="flex-1"
           disabled={isCancelling}
           onClick={onCancel}
         >
