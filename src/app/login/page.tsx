@@ -74,10 +74,10 @@ export default function LoginPage() {
             <Waves className="size-7" />
           </div>
           <h1 className="font-heading text-2xl font-bold text-foreground">
-            Mid Year Party
+            Fit Rave
           </h1>
           <p className="text-sm text-muted-foreground">
-            Masuk untuk memilih aktivitas olahraga kamu.
+            Move. Reconnect. Scaling Impact.
           </p>
         </motion.div>
 

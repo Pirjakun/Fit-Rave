@@ -10,7 +10,8 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
-    "seed": "node --env-file=.env.local --import tsx scripts/seed-firestore.ts"
+    "seed": "node --env-file=.env.local --import tsx scripts/seed-firestore.ts",
+    "create-club-presidents": "node --env-file=.env.local --import tsx scripts/create-club-presidents.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",

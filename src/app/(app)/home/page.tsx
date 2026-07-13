@@ -84,7 +84,7 @@ function SelectionSummary({ employeeId }: { employeeId: string }) {
 export default function HomePage() {
   const { employee } = useAuth();
   const { data: event } = useEventInfo();
-  const fitRave = event?.day2.agenda[0];
+  const fitRave = event?.day2.agenda.find((item) => item.id === "fit-rave");
 
   if (!employee) return null;
 
@@ -97,31 +97,39 @@ export default function HomePage() {
         </h1>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
-      >
-        <Link href="/schedule">
-          <Card className="overflow-hidden bg-linear-to-br from-primary to-secondary text-primary-foreground">
-            <CardContent className="flex items-center gap-3 py-5">
-              <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-white/20">
-                <Waves className="size-5" />
-              </div>
-              <div className="flex-1">
-                <p className="font-heading text-lg font-semibold">
-                  {fitRave?.title ?? "Fit Rave"}
-                </p>
-                <p className="text-sm text-white/85">
-                  {event ? `${event.day2.date} · ` : ""}
-                  {fitRave ? `${fitRave.timeStart}–${fitRave.timeEnd}` : ""}
-                </p>
-              </div>
-              <ChevronRight className="size-5 shrink-0" />
-            </CardContent>
-          </Card>
-        </Link>
-      </motion.div>
+      <section className="flex flex-col gap-3">
+        <h2 className="font-heading text-lg font-semibold text-foreground">
+          Agenda Terdekat
+        </h2>
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+        >
+          <Link href="/schedule">
+            <Card className="overflow-hidden bg-linear-to-br from-primary to-secondary text-primary-foreground">
+              <CardContent className="flex items-center gap-3 py-5">
+                <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-white/20">
+                  <Waves className="size-5" />
+                </div>
+                <div className="flex-1">
+                  <p className="font-heading text-lg font-semibold">
+                    {fitRave?.title ?? "Agenda"}
+                  </p>
+                  <p className="text-xs font-medium text-white/70">
+                    {fitRave?.description ?? "Lihat rangkaian acara lengkap"}
+                  </p>
+                  <p className="text-sm text-white/85">
+                    {event ? `${event.day2.date} · ` : ""}
+                    {fitRave ? `${fitRave.timeStart}–${fitRave.timeEnd}` : ""}
+                  </p>
+                </div>
+                <ChevronRight className="size-5 shrink-0" />
+              </CardContent>
+            </Card>
+          </Link>
+        </motion.div>
+      </section>
 
       <section className="flex flex-col gap-3">
         <h2 className="font-heading text-lg font-semibold text-foreground">

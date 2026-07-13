@@ -14,8 +14,8 @@ const fontBody = Work_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Mid Year Party — Aktivitas Wellbeing",
-  description: "Pilih dan pantau aktivitas Mid Year Party kamu.",
+  title: "Fit Rave — Aktivitas Wellbeing",
+  description: "Pilih dan pantau aktivitas Fit Rave kamu.",
 };
 
 export default function RootLayout({

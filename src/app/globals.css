@@ -54,7 +54,7 @@
 }
 
 :root {
-  /* Beach/Summer Party — light (day) theme */
+  /* light (day) theme */
   --background: #faf6ee; /* white sand */
   --foreground: #0f172a; /* deep navy ink */
   --card: #ffffff;
@@ -95,7 +95,7 @@
 }
 
 .dark {
-  /* Beach/Summer Party — dark (night beach) theme */
+  /* dark (night beach) theme */
   --background: #0b1d2a; /* deep ocean navy */
   --foreground: #f1f5f9;
   --card: #102a3b;

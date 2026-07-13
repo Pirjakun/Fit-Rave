@@ -81,6 +81,7 @@ export default function AdminActivitiesPage() {
                 <TableHead>Nama</TableHead>
                 <TableHead>Kategori</TableHead>
                 <TableHead>Kuota</TableHead>
+                <TableHead>Coach</TableHead>
                 <TableHead className="text-right">Aksi</TableHead>
               </TableRow>
             </TableHeader>
@@ -98,6 +99,7 @@ export default function AdminActivitiesPage() {
                       ? `${activity.quotaTaken}/${activity.quota}`
                       : "-"}
                   </TableCell>
+                  <TableCell>{activity.coach || "-"}</TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-1">
                       <Button

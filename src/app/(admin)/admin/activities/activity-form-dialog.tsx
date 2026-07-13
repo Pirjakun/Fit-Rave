@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import {
   Dialog,
@@ -31,6 +31,7 @@ const EMPTY_FORM = {
   timeWindow: "Fit Rave · 07.30 - 10.00",
   quota: "",
   tags: "",
+  coach: "",
 };
 
 export function ActivityFormDialog({
@@ -39,28 +40,32 @@ export function ActivityFormDialog({
   activity,
 }: ActivityFormDialogProps) {
   const [form, setForm] = useState(EMPTY_FORM);
+  const [syncedKey, setSyncedKey] = useState({ open, activity });
   const createActivity = useCreateActivity();
   const updateActivity = useUpdateActivity();
   const isPending = createActivity.isPending || updateActivity.isPending;
   const isEditing = !!activity;
 
-  useEffect(() => {
-    if (!open) return;
-    setForm(
-      activity
-        ? {
-            name: activity.name,
-            category: activity.category,
-            description: activity.description,
-            icon: activity.icon,
-            location: activity.location,
-            timeWindow: activity.timeWindow,
-            quota: activity.quota?.toString() ?? "",
-            tags: activity.tags.join(", "),
-          }
-        : EMPTY_FORM,
-    );
-  }, [open, activity]);
+  if (syncedKey.open !== open || syncedKey.activity !== activity) {
+    setSyncedKey({ open, activity });
+    if (open) {
+      setForm(
+        activity
+          ? {
+              name: activity.name,
+              category: activity.category,
+              description: activity.description,
+              icon: activity.icon,
+              location: activity.location,
+              timeWindow: activity.timeWindow,
+              quota: activity.quota?.toString() ?? "",
+              tags: activity.tags.join(", "),
+              coach: activity.coach ?? "",
+            }
+          : EMPTY_FORM,
+      );
+    }
+  }
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -78,6 +83,7 @@ export function ActivityFormDialog({
         .split(",")
         .map((t) => t.trim())
         .filter(Boolean),
+      coach: form.coach.trim(),
     };
 
     if (isEditing) {
@@ -192,6 +198,15 @@ export function ActivityFormDialog({
               />
             </div>
           )}
+
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="coach">Coach (opsional)</Label>
+            <Input
+              id="coach"
+              value={form.coach}
+              onChange={(e) => setForm({ ...form, coach: e.target.value })}
+            />
+          </div>
 
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="tags">Tags (pisahkan dengan koma)</Label>

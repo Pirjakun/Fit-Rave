@@ -1,11 +1,11 @@
-# Fit-Rave — Mid Year Party & Summer Wellbeing App
+# Fit Rave — Summer Wellbeing App
 
 [![Next.js](https://img.shields.io/badge/Next.js-16.2.10-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.2.4-blue?style=for-the-badge&logo=react)](https://react.dev/)
 [![Firebase](https://img.shields.io/badge/Firebase-12.16.0-orange?style=for-the-badge&logo=firebase)](https://firebase.google.com/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4.0-06B6D4?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com/)
 
-A modern, mobile-first web application designed for a company's **Mid Year Party** (Beach & Summer Wellbeing Day theme). Employees can browse sports/wellbeing activities, choose quota-limited activities, and track their selection status. It also includes an administrator dashboard to manage schedules, employees, and activities.
+A modern, mobile-first web application designed for a company's **Fit Rave** event. Employees can browse sports/wellbeing activities, choose quota-limited activities, and track their selection status. It also includes an administrator dashboard to manage schedules, employees, and activities.
 
 ---
 

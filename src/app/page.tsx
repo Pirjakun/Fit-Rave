@@ -35,7 +35,7 @@ export default function SplashPage() {
         transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
       >
         <p className="font-heading text-2xl font-bold text-white">
-          Mid Year Party
+          Fit Rave
         </p>
         <p className="text-sm text-white/80">Aktivitas Olahraga &amp; Wellbeing</p>
       </motion.div>

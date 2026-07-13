@@ -40,7 +40,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <p className="font-heading text-lg font-bold text-foreground">
               Admin Dashboard
             </p>
-            <p className="text-xs text-muted-foreground">Mid Year Party</p>
+            <p className="text-xs text-muted-foreground">Fit Rave</p>
           </div>
           <Button
             variant="ghost"

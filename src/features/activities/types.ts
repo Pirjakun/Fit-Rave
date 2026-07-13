@@ -1,5 +1,11 @@
 export type ActivityCategory = "segmented" | "open";
 
+export interface ClubPresident {
+  uid: string;
+  name: string;
+  email: string;
+}
+
 export interface Activity {
   id: string;
   name: string;
@@ -12,4 +18,6 @@ export interface Activity {
   quota: number | null;
   quotaTaken: number;
   tags: string[];
+  coach?: string;
+  president?: ClubPresident | null;
 }

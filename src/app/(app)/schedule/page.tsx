@@ -66,10 +66,13 @@ function AgendaItemCard({ item }: { item: EventAgendaItem }) {
         </div>
         <CardDescription>
           {item.timeStart} – {item.timeEnd}
+          {item.venue ? ` · ${item.venue}` : ""}
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <p className="text-sm text-muted-foreground">{item.description}</p>
+        {item.description && (
+          <p className="text-sm text-muted-foreground">{item.description}</p>
+        )}
         <DresscodeSection dresscode={item.dresscode} />
       </CardContent>
     </Card>

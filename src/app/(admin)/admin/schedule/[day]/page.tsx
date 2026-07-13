@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -54,27 +54,29 @@ export default function AdminScheduleDayPage() {
     Record<string, DresscodeText>
   >({});
   const [deleteTarget, setDeleteTarget] = useState<EventAgendaItem | null>(null);
+  const [syncedEventInfo, setSyncedEventInfo] = useState<EventInfo | undefined>(
+    undefined,
+  );
 
-  useEffect(() => {
-    if (eventInfo) {
-      setForm({ day1: eventInfo.day1, day2: eventInfo.day2 });
-      setDay1Dresscode({
-        items: toTextareaValue(eventInfo.day1.dresscode.items),
-        note: eventInfo.day1.dresscode.note,
-      });
-      setAgendaDresscode(
-        Object.fromEntries(
-          [...eventInfo.day1.agenda, ...eventInfo.day2.agenda].map((item) => [
-            item.id,
-            {
-              items: toTextareaValue(item.dresscode.items),
-              note: item.dresscode.note,
-            },
-          ]),
-        ),
-      );
-    }
-  }, [eventInfo]);
+  if (eventInfo && eventInfo !== syncedEventInfo) {
+    setSyncedEventInfo(eventInfo);
+    setForm({ day1: eventInfo.day1, day2: eventInfo.day2 });
+    setDay1Dresscode({
+      items: toTextareaValue(eventInfo.day1.dresscode.items),
+      note: eventInfo.day1.dresscode.note,
+    });
+    setAgendaDresscode(
+      Object.fromEntries(
+        [...eventInfo.day1.agenda, ...eventInfo.day2.agenda].map((item) => [
+          item.id,
+          {
+            items: toTextareaValue(item.dresscode.items),
+            note: item.dresscode.note,
+          },
+        ]),
+      ),
+    );
+  }
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -279,6 +281,18 @@ export default function AdminScheduleDayPage() {
               </div>
             </div>
             <div className="flex flex-col gap-1.5">
+              <Label htmlFor={`${item.id}-venue`}>Venue</Label>
+              <Input
+                id={`${item.id}-venue`}
+                value={item.venue}
+                onChange={(e) => {
+                  const nextAgenda = [...agenda];
+                  nextAgenda[index] = { ...item, venue: e.target.value };
+                  setForm({ ...form, [day]: { ...form[day], agenda: nextAgenda } });
+                }}
+              />
+            </div>
+            <div className="flex flex-col gap-1.5">
               <Label>Status</Label>
               <Tabs
                 value={item.status}
@@ -357,6 +371,7 @@ export default function AdminScheduleDayPage() {
             title: "",
             timeStart: "",
             timeEnd: "",
+            venue: "",
             status: "tbu",
             description: "",
             dresscode: { items: [], note: "" },

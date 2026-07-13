@@ -8,6 +8,7 @@ export interface EventAgendaItem {
   title: string;
   timeStart: string;
   timeEnd: string;
+  venue: string;
   status: "confirmed" | "tbu";
   description: string;
   dresscode: Dresscode;
