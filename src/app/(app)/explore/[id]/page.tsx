@@ -16,7 +16,6 @@ import {
   useToggleOpenMark,
 } from "@/features/selection/hooks";
 import { useEventInfo } from "@/features/event/hooks";
-import { getActivityIcon } from "@/features/activities/icon-map";
 
 export default function ActivityDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -59,7 +58,6 @@ export default function ActivityDetailPage() {
     );
   }
 
-  const Icon = getActivityIcon(activity.icon);
   const currentSelectionId = selectionState?.selection?.activityId;
   const isOwnSelection = currentSelectionId === activity.id;
   const hasOtherSelection = !!currentSelectionId && !isOwnSelection;
@@ -73,7 +71,7 @@ export default function ActivityDetailPage() {
   return (
     <div className="flex flex-col gap-5 px-4 pt-6 pb-4 sm:px-6">
       <div className="flex size-14 items-center justify-center rounded-2xl bg-highlight text-highlight-foreground">
-        <Icon className="size-7" />
+        <span className="text-2xl leading-none">{activity.icon || "🏷️"}</span>
       </div>
 
       <div className="flex flex-col gap-2">

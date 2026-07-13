@@ -37,7 +37,7 @@ export default function SplashPage() {
         <p className="font-heading text-2xl font-bold text-white">
           Mid Year Party
         </p>
-        <p className="text-sm text-white/80">Beach &amp; Summer Wellbeing Day</p>
+        <p className="text-sm text-white/80">Aktivitas Olahraga &amp; Wellbeing</p>
       </motion.div>
     </div>
   );

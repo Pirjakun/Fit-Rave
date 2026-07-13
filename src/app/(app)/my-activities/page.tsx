@@ -16,7 +16,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/features/auth/context";
 import { useActivities } from "@/features/activities/hooks";
 import { useCancelSelection, useSelectionState } from "@/features/selection/hooks";
-import { getActivityIcon } from "@/features/activities/icon-map";
 
 export default function MyActivitiesPage() {
   const { employee } = useAuth();
@@ -122,12 +121,11 @@ export default function MyActivitiesPage() {
             ) : (
               <div className="flex flex-col gap-3">
                 {openActivities.map((activity) => {
-                  const Icon = getActivityIcon(activity.icon);
                   return (
                     <Card key={activity.id}>
                       <CardContent className="flex items-center gap-3 py-4">
                         <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-highlight text-highlight-foreground">
-                          <Icon className="size-5" />
+                          <span className="text-lg leading-none">{activity.icon || "🏷️"}</span>
                         </div>
                         <div className="flex-1">
                           <p className="font-heading font-semibold text-foreground">
@@ -160,12 +158,11 @@ function SelectedActivityCard({
   onCancel: () => void;
   isCancelling: boolean;
 }) {
-  const Icon = getActivityIcon(activity.icon);
   return (
     <Card>
       <CardHeader>
         <div className="mb-1 flex size-11 items-center justify-center rounded-xl bg-highlight text-highlight-foreground">
-          <Icon className="size-5" />
+          <span className="text-lg leading-none">{activity.icon || "🏷️"}</span>
         </div>
         <CardTitle>{activity.name}</CardTitle>
         <CardDescription>

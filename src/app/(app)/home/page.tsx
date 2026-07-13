@@ -17,7 +17,6 @@ import { useAuth } from "@/features/auth/context";
 import { useSelectionState } from "@/features/selection/hooks";
 import { useActivity } from "@/features/activities/hooks";
 import { useEventInfo } from "@/features/event/hooks";
-import { getActivityIcon } from "@/features/activities/icon-map";
 
 function SelectionSummary({ employeeId }: { employeeId: string }) {
   const { data, isLoading, isError } = useSelectionState(employeeId);
@@ -64,13 +63,11 @@ function SelectionSummary({ employeeId }: { employeeId: string }) {
     );
   }
 
-  const Icon = getActivityIcon(activity.icon);
-
   return (
     <Card>
       <CardHeader>
         <div className="mb-1 flex size-11 items-center justify-center rounded-xl bg-highlight text-highlight-foreground">
-          <Icon className="size-5" />
+          <span className="text-lg leading-none">{activity.icon || "🏷️"}</span>
         </div>
         <CardTitle>{activity.name}</CardTitle>
         <CardDescription>

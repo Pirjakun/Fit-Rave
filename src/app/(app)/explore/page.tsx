@@ -17,7 +17,6 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/features/auth/context";
 import { useActivities } from "@/features/activities/hooks";
 import { useSelectionState } from "@/features/selection/hooks";
-import { getActivityIcon } from "@/features/activities/icon-map";
 import type { Activity } from "@/features/activities/types";
 
 type Filter = "all" | "segmented" | "open";
@@ -109,14 +108,13 @@ export default function ExplorePage() {
       {!isLoading && !isError && (
         <div className="flex flex-col gap-3">
           {filtered.map((activity) => {
-            const Icon = getActivityIcon(activity.icon);
             const isSelected = activity.id === selectedActivityId;
             return (
               <Link key={activity.id} href={`/explore/${activity.id}`}>
                 <Card className={isSelected ? "ring-2 ring-primary" : undefined}>
                   <CardHeader>
                     <div className="mb-1 flex size-11 items-center justify-center rounded-xl bg-highlight text-highlight-foreground">
-                      <Icon className="size-5" />
+                      <span className="text-lg leading-none">{activity.icon || "🏷️"}</span>
                     </div>
                     <CardTitle>{activity.name}</CardTitle>
                     <CardDescription>

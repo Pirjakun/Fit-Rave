@@ -26,16 +26,18 @@ export default function AppLayout({
   return (
     <div className="flex min-h-dvh flex-col bg-linear-to-b from-primary/10 via-background to-background">
       <main className="flex-1 pb-4">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={pathname}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-          >
-            {children}
-          </motion.div>
-        </AnimatePresence>
+        <div className="mx-auto w-full max-w-3xl">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={pathname}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+            >
+              {children}
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </main>
       <BottomNav />
     </div>

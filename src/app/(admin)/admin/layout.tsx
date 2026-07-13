@@ -35,7 +35,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         transition={{ duration: 0.4, ease: "easeOut" }}
         className="flex flex-col gap-4 border-b border-border/60 bg-background/60 px-4 py-4 backdrop-blur sm:px-6"
       >
-        <div className="flex items-center justify-between">
+        <div className="mx-auto flex w-full max-w-5xl items-center justify-between">
           <div>
             <p className="font-heading text-lg font-bold text-foreground">
               Admin Dashboard
@@ -55,12 +55,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </Button>
         </div>
 
-        <nav className="flex gap-1">
+        <nav className="mx-auto flex w-full max-w-5xl gap-1 sm:justify-start">
           {NAV_ITEMS.map((item) => {
             const Icon = item.icon;
             const isActive = pathname.startsWith(item.href);
             return (
-              <Link key={item.href} href={item.href} className="flex-1">
+              <Link key={item.href} href={item.href} className="flex-1 sm:flex-initial">
                 <Button
                   variant={isActive ? "secondary" : "ghost"}
                   size="sm"
@@ -81,7 +81,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
         className="flex-1 px-4 py-6 sm:px-6"
       >
-        {children}
+        <div className="mx-auto w-full max-w-5xl">{children}</div>
       </motion.main>
     </div>
   );

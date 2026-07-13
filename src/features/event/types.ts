@@ -20,6 +20,7 @@ export interface EventInfo {
     date: string;
     time: string;
     dresscode: Dresscode;
+    agenda: EventAgendaItem[];
   };
   day2: {
     title: string;

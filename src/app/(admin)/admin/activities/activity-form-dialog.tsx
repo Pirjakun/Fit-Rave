@@ -69,7 +69,7 @@ export function ActivityFormDialog({
       name: form.name.trim(),
       category: form.category,
       description: form.description.trim(),
-      icon: form.icon.trim() || "Dumbbell",
+      icon: form.icon.trim() || "🏷️",
       location: form.location.trim(),
       day: 2 as const,
       timeWindow: form.timeWindow.trim(),
@@ -150,12 +150,12 @@ export function ActivityFormDialog({
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="icon">Icon (nama Lucide, cth. Dumbbell)</Label>
+            <Label htmlFor="icon">Icon (emoji)</Label>
             <Input
               id="icon"
               value={form.icon}
               onChange={(e) => setForm({ ...form, icon: e.target.value })}
-              placeholder="Dumbbell"
+              placeholder="🏃"
             />
           </div>
 

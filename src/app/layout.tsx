@@ -14,7 +14,7 @@ const fontBody = Work_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Mid Year Party — Beach & Summer Wellbeing",
+  title: "Mid Year Party — Aktivitas Wellbeing",
   description: "Pilih dan pantau aktivitas Mid Year Party kamu.",
 };
 

@@ -27,12 +27,17 @@ import {
   useResetEmployeeSelection,
   type AdminEmployee,
 } from "@/features/admin/hooks";
+import { useActivities } from "@/features/activities/hooks";
 
 export default function AdminEmployeesPage() {
   const { data: employees, isLoading } = useEmployees();
+  const { data: activities } = useActivities();
   const resetSelection = useResetEmployeeSelection();
   const [search, setSearch] = useState("");
   const [resetTarget, setResetTarget] = useState<AdminEmployee | null>(null);
+  const [sortDir, setSortDir] = useState<"asc" | "desc" | null>(null);
+
+  const activityNames = new Map((activities ?? []).map((a) => [a.id, a.name]));
 
   const filtered = (employees ?? []).filter((employee) => {
     const q = search.trim().toLowerCase();
@@ -41,6 +46,20 @@ export default function AdminEmployeesPage() {
       employee.name.toLowerCase().includes(q) ||
       employee.email.toLowerCase().includes(q)
     );
+  });
+
+  const sorted = [...filtered].sort((a, b) => {
+    if (!sortDir) return 0;
+    const nameA = a.activityId
+      ? (activityNames.get(a.activityId) ?? a.activityId)
+      : null;
+    const nameB = b.activityId
+      ? (activityNames.get(b.activityId) ?? b.activityId)
+      : null;
+    if (!nameA && !nameB) return 0;
+    if (!nameA) return 1;
+    if (!nameB) return -1;
+    return sortDir === "asc" ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
   });
 
   function confirmReset() {
@@ -82,13 +101,18 @@ export default function AdminEmployeesPage() {
             <TableHeader>
               <TableRow>
                 <TableHead>Nama</TableHead>
-                <TableHead>Aktivitas</TableHead>
+                <TableHead
+                  className="cursor-pointer select-none"
+                  onClick={() => setSortDir(sortDir === "asc" ? "desc" : "asc")}
+                >
+                  Aktivitas {sortDir === "asc" ? "↑" : sortDir === "desc" ? "↓" : ""}
+                </TableHead>
                 <TableHead>Open Activities</TableHead>
                 <TableHead className="text-right">Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filtered.map((employee) => (
+              {sorted.map((employee) => (
                 <TableRow key={employee.id}>
                   <TableCell>
                     <p className="font-medium">{employee.name}</p>
@@ -96,7 +120,9 @@ export default function AdminEmployeesPage() {
                   </TableCell>
                   <TableCell>
                     {employee.activityId ? (
-                      <Badge>{employee.activityId}</Badge>
+                      <Badge>
+                        {activityNames.get(employee.activityId) ?? employee.activityId}
+                      </Badge>
                     ) : (
                       <span className="text-xs text-muted-foreground">
                         Belum memilih
@@ -108,7 +134,7 @@ export default function AdminEmployeesPage() {
                       <div className="flex flex-wrap gap-1">
                         {employee.openMarks.map((id) => (
                           <Badge key={id} variant="secondary">
-                            {id}
+                            {activityNames.get(id) ?? id}
                           </Badge>
                         ))}
                       </div>

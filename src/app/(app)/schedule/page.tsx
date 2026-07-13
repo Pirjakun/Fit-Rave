@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useEventInfo } from "@/features/event/hooks";
-import type { Dresscode } from "@/features/event/types";
+import type { Dresscode, EventAgendaItem } from "@/features/event/types";
 
 function DresscodeSection({
   dresscode,
@@ -51,6 +51,28 @@ function DresscodeSection({
         <p className={`text-xs italic ${noteClass}`}>{dresscode.note}</p>
       )}
     </div>
+  );
+}
+
+function AgendaItemCard({ item }: { item: EventAgendaItem }) {
+  return (
+    <Card>
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <CardTitle>{item.title}</CardTitle>
+          <Badge variant={item.status === "confirmed" ? "success" : "warning"}>
+            {item.status === "confirmed" ? "Confirmed" : "Detail Menyusul"}
+          </Badge>
+        </div>
+        <CardDescription>
+          {item.timeStart} – {item.timeEnd}
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p className="text-sm text-muted-foreground">{item.description}</p>
+        <DresscodeSection dresscode={item.dresscode} />
+      </CardContent>
+    </Card>
   );
 }
 
@@ -117,6 +139,17 @@ export default function EventSchedulePage() {
                 />
               </CardContent>
             </Card>
+
+            {event.day1.agenda.length > 0 && (
+              <div className="flex flex-col gap-3 pt-1">
+                <h3 className="font-heading text-sm font-semibold text-muted-foreground">
+                  Kegiatan Hari 1
+                </h3>
+                {event.day1.agenda.map((item) => (
+                  <AgendaItemCard key={item.id} item={item} />
+                ))}
+              </div>
+            )}
           </section>
 
           <section className="flex flex-col gap-3">
@@ -125,25 +158,7 @@ export default function EventSchedulePage() {
             </h2>
             <div className="flex flex-col gap-3">
               {event.day2.agenda.map((item) => (
-                <Card key={item.id}>
-                  <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <CardTitle>{item.title}</CardTitle>
-                      <Badge variant={item.status === "confirmed" ? "success" : "warning"}>
-                        {item.status === "confirmed" ? "Confirmed" : "Detail Menyusul"}
-                      </Badge>
-                    </div>
-                    <CardDescription>
-                      {item.timeStart} – {item.timeEnd}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">
-                      {item.description}
-                    </p>
-                    <DresscodeSection dresscode={item.dresscode} />
-                  </CardContent>
-                </Card>
+                <AgendaItemCard key={item.id} item={item} />
               ))}
             </div>
           </section>

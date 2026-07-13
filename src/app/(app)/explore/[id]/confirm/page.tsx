@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useActivity } from "@/features/activities/hooks";
-import { getActivityIcon } from "@/features/activities/icon-map";
 
 export default function ConfirmationPage() {
   const { id } = useParams<{ id: string }>();
@@ -39,14 +38,9 @@ export default function ConfirmationPage() {
       ) : (
         <Card className="w-full max-w-sm">
           <CardContent className="flex items-center gap-3 py-4 text-left">
-            {(() => {
-              const Icon = getActivityIcon(activity.icon);
-              return (
-                <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-highlight text-highlight-foreground">
-                  <Icon className="size-5" />
-                </div>
-              );
-            })()}
+            <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-highlight text-highlight-foreground">
+              <span className="text-lg leading-none">{activity.icon || "🏷️"}</span>
+            </div>
             <div>
               <p className="font-heading font-semibold text-foreground">
                 {activity.name}

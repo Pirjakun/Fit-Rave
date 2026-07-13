@@ -47,7 +47,7 @@ export default function StyleGuidePage() {
           Mid Year Party — Design System
         </p>
         <h1 className="font-heading text-3xl font-bold text-foreground">
-          Beach &amp; Summer Style Reference
+          Style Reference
         </h1>
         <p className="text-base text-muted-foreground">
           Living reference untuk warna, tipografi, komponen, dan state global.

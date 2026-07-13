@@ -16,7 +16,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/features/auth/context";
 import { useActivity } from "@/features/activities/hooks";
 import { useSelectActivity, useSelectionState } from "@/features/selection/hooks";
-import { getActivityIcon } from "@/features/activities/icon-map";
 
 export default function ChooseActivityPage() {
   const { id } = useParams<{ id: string }>();
@@ -42,7 +41,6 @@ export default function ChooseActivityPage() {
   }
 
   const isSwitching = !!currentActivityId && currentActivityId !== activity.id;
-  const Icon = getActivityIcon(activity.icon);
 
   function handleConfirm() {
     setErrorMessage(null);
@@ -63,7 +61,7 @@ export default function ChooseActivityPage() {
       <Card>
         <CardHeader>
           <div className="mb-1 flex size-11 items-center justify-center rounded-xl bg-highlight text-highlight-foreground">
-            <Icon className="size-5" />
+            <span className="text-lg leading-none">{activity.icon || "🏷️"}</span>
           </div>
           <CardTitle>{activity.name}</CardTitle>
           <CardDescription>
