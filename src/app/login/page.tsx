@@ -81,7 +81,7 @@ export default function LoginPage() {
             />
           </div>
           <h1 className="font-heading text-2xl font-bold text-foreground">
-            Fit Rave
+            Mid Year 2026
           </h1>
           <p className="text-sm text-muted-foreground">
             Move. Reconnect. Scaling Impact.

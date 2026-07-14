@@ -42,9 +42,9 @@ export default function SplashPage() {
         transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
       >
         <p className="font-heading text-2xl font-bold text-white">
-          Fit Rave
+          Mid Year 2026
         </p>
-        <p className="text-sm text-white/80">Aktivitas Olahraga &amp; Wellbeing</p>
+        <p className="text-sm text-white/80">Move. Reconnect. Scaling Impact.</p>
       </motion.div>
     </div>
   );
