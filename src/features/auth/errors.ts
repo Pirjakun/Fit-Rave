@@ -6,6 +6,11 @@ const MESSAGES: Record<string, string> = {
   "auth/invalid-credential": "Email atau password salah.",
   "auth/user-not-found": "Akun tidak ditemukan.",
   "auth/too-many-requests": "Terlalu banyak percobaan, coba lagi nanti.",
+  "auth/account-exists-with-different-credential":
+    "Email ini sudah terdaftar dengan password. Silakan masuk dengan password.",
+  "auth/popup-closed-by-user": "Login Google dibatalkan.",
+  "auth/popup-blocked": "Popup diblokir browser, izinkan popup lalu coba lagi.",
+  "auth/cancelled-popup-request": "Login Google dibatalkan.",
 };
 
 export function mapFirebaseAuthError(error: unknown): string {

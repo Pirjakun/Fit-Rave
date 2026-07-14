@@ -15,6 +15,7 @@ export interface EventAgendaItem {
 }
 
 export interface EventInfo {
+  scheduleVisible: boolean;
   day1: {
     title: string;
     description: string;

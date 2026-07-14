@@ -60,7 +60,11 @@ export default function AdminScheduleDayPage() {
 
   if (eventInfo && eventInfo !== syncedEventInfo) {
     setSyncedEventInfo(eventInfo);
-    setForm({ day1: eventInfo.day1, day2: eventInfo.day2 });
+    setForm({
+      scheduleVisible: eventInfo.scheduleVisible,
+      day1: eventInfo.day1,
+      day2: eventInfo.day2,
+    });
     setDay1Dresscode({
       items: toTextareaValue(eventInfo.day1.dresscode.items),
       note: eventInfo.day1.dresscode.note,
@@ -83,6 +87,7 @@ export default function AdminScheduleDayPage() {
     if (!form) return;
 
     const payload: EventInfo = {
+      scheduleVisible: form.scheduleVisible,
       day1: {
         ...form.day1,
         dresscode: {

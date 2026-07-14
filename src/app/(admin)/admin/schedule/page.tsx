@@ -4,14 +4,34 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { useEventInfo } from "@/features/event/hooks";
+import { useUpdateEventInfo } from "@/features/admin/hooks";
 
 export default function AdminSchedulePage() {
   const { data: event, isLoading } = useEventInfo();
+  const updateEventInfo = useUpdateEventInfo();
 
   return (
     <div className="flex flex-col gap-5">
       <h1 className="font-heading text-xl font-bold text-foreground">Schedule</h1>
+
+      {event && (
+        <Card>
+          <CardContent className="flex items-center justify-between py-4">
+            <Label htmlFor="schedule-visible">Tampilkan Rundown ke Employee</Label>
+            <Switch
+              id="schedule-visible"
+              checked={event.scheduleVisible}
+              disabled={updateEventInfo.isPending}
+              onCheckedChange={(checked) =>
+                updateEventInfo.mutate({ ...event, scheduleVisible: checked })
+              }
+            />
+          </CardContent>
+        </Card>
+      )}
 
       {isLoading && (
         <div className="flex flex-col gap-3">

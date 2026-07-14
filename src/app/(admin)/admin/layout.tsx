@@ -28,7 +28,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   if (isLoading || !employee || role !== "admin") return null;
 
   return (
-    <div className="flex min-h-dvh flex-col bg-linear-to-b from-primary/15 via-background to-background">
+    <div className="flex min-h-dvh flex-col bg-linear-to-b from-primary/25 via-primary/8 to-background">
       <motion.header
         initial={{ y: -12, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}

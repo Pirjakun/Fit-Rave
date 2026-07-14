@@ -1,16 +1,94 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ChevronRight, HelpCircle, LogOut } from "lucide-react";
+import { ChevronRight, HelpCircle, LogOut, Pencil } from "lucide-react";
+import { toast } from "sonner";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/features/auth/context";
+import { useUpdateName } from "@/features/auth/hooks";
+
+function EditNameDialog({
+  open,
+  onOpenChange,
+  currentName,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  currentName: string;
+}) {
+  const { refreshProfile } = useAuth();
+  const updateName = useUpdateName();
+  const [name, setName] = useState(currentName);
+
+  function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    const trimmed = name.trim();
+    if (!trimmed) return;
+
+    updateName.mutate(trimmed, {
+      onSuccess: async () => {
+        await refreshProfile();
+        toast.success("Nama berhasil diubah");
+        onOpenChange(false);
+      },
+      onError: (error) => toast.error(error.message),
+    });
+  }
+
+  return (
+    <Dialog
+      open={open}
+      onOpenChange={(next) => {
+        if (next) setName(currentName);
+        onOpenChange(next);
+      }}
+    >
+      <DialogContent className="sm:max-w-sm">
+        <DialogHeader>
+          <DialogTitle>Ubah Nama</DialogTitle>
+        </DialogHeader>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="edit-name">Nama</Label>
+            <Input
+              id="edit-name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              autoFocus
+            />
+          </div>
+          <DialogFooter>
+            <Button
+              type="submit"
+              disabled={updateName.isPending || !name.trim()}
+            >
+              {updateName.isPending ? "Menyimpan..." : "Simpan"}
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+}
 
 export default function ProfilePage() {
   const { employee, signOut } = useAuth();
   const router = useRouter();
+  const [editOpen, setEditOpen] = useState(false);
 
   if (!employee) return null;
 
@@ -25,14 +103,29 @@ export default function ProfilePage() {
           <Avatar size="lg">
             <AvatarFallback>{employee.avatarInitial}</AvatarFallback>
           </Avatar>
-          <div>
+          <div className="flex-1">
             <p className="font-heading font-semibold text-foreground">
               {employee.name}
             </p>
             <p className="text-sm text-muted-foreground">{employee.email}</p>
           </div>
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon-sm"
+            aria-label="Ubah nama"
+            onClick={() => setEditOpen(true)}
+          >
+            <Pencil className="size-4" />
+          </Button>
         </CardContent>
       </Card>
+
+      <EditNameDialog
+        open={editOpen}
+        onOpenChange={setEditOpen}
+        currentName={employee.name}
+      />
 
       <Card>
         <CardContent className="flex flex-col py-1">

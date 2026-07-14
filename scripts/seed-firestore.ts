@@ -126,6 +126,7 @@ const activities: Activity[] = [
 ];
 
 const eventInfo: EventInfo = {
+  scheduleVisible: true,
   day1: {
     title: "Menyamakan Vibrasi — Ruwatan Wayang",
     description:
