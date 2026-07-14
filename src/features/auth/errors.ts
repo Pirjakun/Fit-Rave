@@ -11,6 +11,8 @@ const MESSAGES: Record<string, string> = {
   "auth/popup-closed-by-user": "Login Google dibatalkan.",
   "auth/popup-blocked": "Popup diblokir browser, izinkan popup lalu coba lagi.",
   "auth/cancelled-popup-request": "Login Google dibatalkan.",
+  "auth/unauthorized-domain":
+    "Domain ini belum diizinkan untuk login Google. Hubungi admin untuk menambahkannya di Firebase Console.",
 };
 
 export function mapFirebaseAuthError(error: unknown): string {
