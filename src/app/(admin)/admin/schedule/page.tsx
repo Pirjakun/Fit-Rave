@@ -23,7 +23,7 @@ export default function AdminSchedulePage() {
       {event && (
         <div className="flex flex-col gap-3">
           <Link href="/admin/schedule/day1">
-            <Card className="cursor-pointer transition-colors hover:bg-accent">
+            <Card className="cursor-pointer transition-colors hover:bg-primary/10">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle>Day 1 · {event.day1.title}</CardTitle>
@@ -36,7 +36,7 @@ export default function AdminSchedulePage() {
             </Card>
           </Link>
           <Link href="/admin/schedule/day2">
-            <Card className="cursor-pointer transition-colors hover:bg-accent">
+            <Card className="cursor-pointer transition-colors hover:bg-primary/10">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle>Day 2 · {event.day2.title}</CardTitle>

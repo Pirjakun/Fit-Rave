@@ -17,6 +17,8 @@ import { useAuth } from "@/features/auth/context";
 import { useSelectionState } from "@/features/selection/hooks";
 import { useActivity } from "@/features/activities/hooks";
 import { useEventInfo } from "@/features/event/hooks";
+import { isAgendaItemLive, useNow } from "@/features/event/schedule-time";
+import { cn } from "@/lib/utils";
 
 function SelectionSummary({ employeeId }: { employeeId: string }) {
   const { data, isLoading, isError } = useSelectionState(employeeId);
@@ -85,6 +87,11 @@ export default function HomePage() {
   const { employee } = useAuth();
   const { data: event } = useEventInfo();
   const fitRave = event?.day2.agenda.find((item) => item.id === "fit-rave");
+  const now = useNow();
+  const isFitRaveLive =
+    !!event &&
+    !!fitRave &&
+    isAgendaItemLive(event.day2.date, fitRave.timeStart, fitRave.timeEnd, now);
 
   if (!employee) return null;
 
@@ -107,7 +114,18 @@ export default function HomePage() {
           transition={{ duration: 0.3, ease: "easeOut" }}
         >
           <Link href="/schedule">
-            <Card className="overflow-hidden bg-linear-to-br from-primary to-secondary text-primary-foreground">
+            <Card
+              className={cn(
+                "relative overflow-hidden bg-linear-to-br from-primary to-secondary text-primary-foreground",
+                isFitRaveLive && "ring-2 ring-white/70 ring-offset-2 ring-offset-background"
+              )}
+            >
+              {isFitRaveLive && (
+                <span className="absolute top-3 right-3 flex items-center gap-1 rounded-full bg-white/25 px-2 py-0.5 text-[10px] font-semibold backdrop-blur">
+                  <span className="size-1.5 animate-pulse rounded-full bg-red-400" />
+                  Sedang Berlangsung
+                </span>
+              )}
               <CardContent className="flex items-center gap-3 py-5">
                 <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-white/20">
                   <Waves className="size-5" />

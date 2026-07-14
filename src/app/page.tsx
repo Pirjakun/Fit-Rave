@@ -2,8 +2,8 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { motion } from "motion/react";
-import { Waves } from "lucide-react";
 import { useAuth } from "@/features/auth/context";
 
 export default function SplashPage() {
@@ -25,9 +25,16 @@ export default function SplashPage() {
         initial={{ scale: 0.7, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="flex size-16 items-center justify-center rounded-2xl bg-white/20 text-white backdrop-blur"
+        className="flex size-16 items-center justify-center overflow-hidden rounded-full bg-white/20 backdrop-blur"
       >
-        <Waves className="size-8" />
+        <Image
+          src="/werkudara-logo.png"
+          alt="Werkudara Group"
+          width={64}
+          height={64}
+          className="size-full object-cover"
+          priority
+        />
       </motion.div>
       <motion.div
         initial={{ y: 8, opacity: 0 }}

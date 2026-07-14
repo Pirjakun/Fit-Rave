@@ -2,8 +2,8 @@
 
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { motion } from "motion/react";
-import { Waves } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -70,8 +70,15 @@ export default function LoginPage() {
           transition={{ duration: 0.5, ease: "easeOut" }}
           className="flex flex-col items-center gap-2 text-center"
         >
-          <div className="flex size-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground">
-            <Waves className="size-7" />
+          <div className="flex size-14 items-center justify-center overflow-hidden rounded-full">
+            <Image
+              src="/werkudara-logo.png"
+              alt="Werkudara Group"
+              width={56}
+              height={56}
+              className="size-full object-cover"
+              priority
+            />
           </div>
           <h1 className="font-heading text-2xl font-bold text-foreground">
             Fit Rave

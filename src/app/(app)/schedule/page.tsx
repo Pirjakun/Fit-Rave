@@ -1,6 +1,6 @@
 "use client";
 
-import { AlertTriangle, RefreshCw, Sparkles } from "lucide-react";
+import { AlertTriangle, RefreshCw, Sparkles, Sun } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -159,11 +159,32 @@ export default function EventSchedulePage() {
             <h2 className="font-heading text-lg font-semibold text-foreground">
               Day 2 · {event.day2.date}
             </h2>
-            <div className="flex flex-col gap-3">
-              {event.day2.agenda.map((item) => (
-                <AgendaItemCard key={item.id} item={item} />
-              ))}
-            </div>
+            <Card className="overflow-hidden bg-linear-to-br from-primary to-secondary text-primary-foreground">
+              <CardHeader>
+                <div className="mb-1 flex size-11 items-center justify-center rounded-xl bg-white/20">
+                  <Sun className="size-5" />
+                </div>
+                <CardTitle className="text-primary-foreground">
+                  {event.day2.title}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-primary-foreground/90">
+                  {event.day2.description}
+                </p>
+              </CardContent>
+            </Card>
+
+            {event.day2.agenda.length > 0 && (
+              <div className="flex flex-col gap-3 pt-1">
+                <h3 className="font-heading text-sm font-semibold text-muted-foreground">
+                  Kegiatan Hari 2
+                </h3>
+                {event.day2.agenda.map((item) => (
+                  <AgendaItemCard key={item.id} item={item} />
+                ))}
+              </div>
+            )}
           </section>
         </>
       )}
