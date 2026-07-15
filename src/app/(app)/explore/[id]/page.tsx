@@ -131,12 +131,9 @@ export default function ActivityDetailPage() {
               {activity.quotaTaken}/{activity.quota} slot terisi
             </div>
           )}
-          {activity.coach && (
-            <div className="text-muted-foreground">Coach: {activity.coach}</div>
-          )}
-          {activity.president && (
+          {(activity.coach || activity.president) && (
             <div className="text-muted-foreground">
-              Presiden Club: {activity.president.name}
+              Presiden Club: {activity.coach || activity.president?.name}
             </div>
           )}
         </CardContent>
