@@ -47,7 +47,6 @@ export default function ActivityDetailPage() {
     if (!activity) return;
     selectActivity.mutate(activity.id, {
       onSuccess: () => {
-        setConfirmOpen(false);
         router.push(`/explore/${activity.id}/confirm`);
       },
       onError: (error) => {
