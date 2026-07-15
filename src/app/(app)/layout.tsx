@@ -24,7 +24,7 @@ export default function AppLayout({
   if (isLoading || !employee || role === "admin") return null;
 
   return (
-    <div className="flex min-h-dvh flex-col bg-linear-to-b from-primary/25 via-primary/8 to-background">
+    <div className="flex min-h-dvh flex-col bg-linear-to-b from-primary/40 via-secondary/20 to-background">
       <main className="flex-1 pb-4">
         <div className="mx-auto w-full max-w-3xl">
           <AnimatePresence mode="wait">

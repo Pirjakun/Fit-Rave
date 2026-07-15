@@ -100,15 +100,15 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-dvh flex-1 flex-col justify-center gap-8 bg-linear-to-b from-primary/25 via-secondary/10 to-background px-6 py-10">
+    <div className="flex min-h-dvh flex-1 flex-col justify-center gap-8 bg-linear-to-b from-primary via-secondary to-background px-6 py-10">
       <div className="mx-auto flex w-full max-w-sm flex-col gap-8">
         <motion.div
-          initial={{ y: -12, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
+          initial={{ scale: 0.7, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
           className="flex flex-col items-center gap-2 text-center"
         >
-          <div className="flex size-14 items-center justify-center overflow-hidden rounded-full">
+          <div className="flex size-14 items-center justify-center overflow-hidden rounded-full bg-white/20 backdrop-blur">
             <Image
               src="/werkudara-logo.png"
               alt="Werkudara Group"
@@ -118,10 +118,10 @@ export default function LoginPage() {
               priority
             />
           </div>
-          <h1 className="font-heading text-2xl font-bold text-foreground">
+          <h1 className="font-heading text-2xl font-bold text-white">
             Mid Year 2026
           </h1>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-white/80">
             Move. Reconnect. Scaling Impact.
           </p>
         </motion.div>
@@ -129,8 +129,8 @@ export default function LoginPage() {
         <motion.div
           initial={{ y: 16, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
-          className="flex flex-col gap-5"
+          transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
+          className="flex flex-col gap-5 rounded-3xl bg-white/10 p-6 shadow-xl ring-1 ring-white/25 backdrop-blur-xl"
         >
           <Tabs
             value={mode}
@@ -139,11 +139,17 @@ export default function LoginPage() {
               setTouched(false);
             }}
           >
-            <TabsList className="w-full">
-              <TabsTrigger value="signin" className="flex-1">
+            <TabsList className="w-full bg-white/10">
+              <TabsTrigger
+                value="signin"
+                className="flex-1 text-white/70 hover:text-white data-active:text-foreground"
+              >
                 Masuk
               </TabsTrigger>
-              <TabsTrigger value="signup" className="flex-1">
+              <TabsTrigger
+                value="signup"
+                className="flex-1 text-white/70 hover:text-white data-active:text-foreground"
+              >
                 Daftar
               </TabsTrigger>
             </TabsList>
@@ -152,7 +158,9 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             {mode === "signup" && (
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="name">Nama</Label>
+                <Label htmlFor="name" className="text-white/90">
+                  Nama
+                </Label>
                 <Input
                   id="name"
                   autoComplete="name"
@@ -160,15 +168,18 @@ export default function LoginPage() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   aria-invalid={!!nameError}
+                  className="bg-white/90 border-white/40"
                 />
                 {nameError && (
-                  <p className="text-sm text-destructive">{nameError}</p>
+                  <p className="text-sm font-medium text-destructive">{nameError}</p>
                 )}
               </div>
             )}
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-white/90">
+                Email
+              </Label>
               <Input
                 id="email"
                 type="email"
@@ -177,14 +188,17 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 aria-invalid={!!emailError}
+                className="bg-white/90 border-white/40"
               />
               {emailError && (
-                <p className="text-sm text-destructive">{emailError}</p>
+                <p className="text-sm font-medium text-destructive">{emailError}</p>
               )}
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password" className="text-white/90">
+                Password
+              </Label>
               <div className="relative">
                 <Input
                   id="password"
@@ -196,7 +210,7 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   aria-invalid={!!passwordError}
-                  className="pr-8"
+                  className="bg-white/90 border-white/40 pr-8"
                 />
                 <button
                   type="button"
@@ -212,7 +226,7 @@ export default function LoginPage() {
                 </button>
               </div>
               {passwordError && (
-                <p className="text-sm text-destructive">{passwordError}</p>
+                <p className="text-sm font-medium text-destructive">{passwordError}</p>
               )}
             </div>
 
@@ -220,7 +234,7 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={handleForgotPassword}
-                className="self-end text-sm font-medium text-primary"
+                className="self-end text-sm font-medium text-white underline-offset-4 hover:underline"
               >
                 Lupa password?
               </button>
@@ -241,9 +255,9 @@ export default function LoginPage() {
           </form>
 
           <div className="flex items-center gap-3">
-            <div className="h-px flex-1 bg-border" />
-            <span className="text-xs text-muted-foreground">atau</span>
-            <div className="h-px flex-1 bg-border" />
+            <div className="h-px flex-1 bg-white/25" />
+            <span className="text-xs text-white/70">atau</span>
+            <div className="h-px flex-1 bg-white/25" />
           </div>
 
           <Button
