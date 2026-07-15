@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { AlertTriangle, ClipboardList, RefreshCw } from "lucide-react";
+import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,6 +14,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/features/auth/context";
 import { useActivities } from "@/features/activities/hooks";
@@ -34,6 +44,7 @@ export default function MyActivitiesPage() {
     refetch: refetchSelection,
   } = useSelectionState(employeeId);
   const cancelSelection = useCancelSelection(employeeId);
+  const [cancelOpen, setCancelOpen] = useState(false);
 
   const isLoading = activitiesLoading || selectionLoading;
   const isError = activitiesError || selectionError;
@@ -87,11 +98,48 @@ export default function MyActivitiesPage() {
               Aktivitas Segmented
             </h2>
             {selectedActivity ? (
-              <SelectedActivityCard
-                activity={selectedActivity}
-                onCancel={() => cancelSelection.mutate()}
-                isCancelling={cancelSelection.isPending}
-              />
+              <>
+                <SelectedActivityCard
+                  activity={selectedActivity}
+                  onCancel={() => setCancelOpen(true)}
+                  isCancelling={cancelSelection.isPending}
+                />
+                <Dialog open={cancelOpen} onOpenChange={setCancelOpen}>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Batalkan Pilihan?</DialogTitle>
+                      <DialogDescription>
+                        Slot Anda di <strong>{selectedActivity.name}</strong>{" "}
+                        akan dilepas dan bisa diambil karyawan lain.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                      <Button
+                        variant="outline"
+                        onClick={() => setCancelOpen(false)}
+                        disabled={cancelSelection.isPending}
+                      >
+                        Batal
+                      </Button>
+                      <Button
+                        variant="destructive"
+                        disabled={cancelSelection.isPending}
+                        onClick={() =>
+                          cancelSelection.mutate(undefined, {
+                            onSuccess: () => setCancelOpen(false),
+                            onError: () =>
+                              toast.error("Gagal membatalkan pilihan"),
+                          })
+                        }
+                      >
+                        {cancelSelection.isPending
+                          ? "Membatalkan..."
+                          : "Ya, Batalkan"}
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+              </>
             ) : (
               <Card>
                 <CardContent className="flex flex-col items-center gap-3 py-6 text-center">

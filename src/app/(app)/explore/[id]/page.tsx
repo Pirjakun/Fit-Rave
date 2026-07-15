@@ -1,23 +1,33 @@
 "use client";
 
-import Link from "next/link";
-import { useParams } from "next/navigation";
-import { AlertTriangle, MapPin, RefreshCw } from "lucide-react";
+import { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { AlertTriangle, ArrowLeftRight, MapPin, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/features/auth/context";
 import { useActivity } from "@/features/activities/hooks";
 import {
   useCancelSelection,
+  useSelectActivity,
   useSelectionState,
   useToggleOpenMark,
 } from "@/features/selection/hooks";
 
 export default function ActivityDetailPage() {
   const { id } = useParams<{ id: string }>();
+  const router = useRouter();
   const { employee } = useAuth();
   const employeeId = employee?.id ?? "";
 
@@ -25,6 +35,33 @@ export default function ActivityDetailPage() {
   const { data: selectionState } = useSelectionState(employeeId);
   const cancelSelection = useCancelSelection(employeeId);
   const toggleOpenMark = useToggleOpenMark(employeeId);
+  const selectActivity = useSelectActivity(employeeId);
+
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [cancelOpen, setCancelOpen] = useState(false);
+
+  const currentSelectionId = selectionState?.selection?.activityId;
+  const { data: currentActivity } = useActivity(currentSelectionId ?? "");
+
+  function handleConfirmSelect() {
+    if (!activity) return;
+    selectActivity.mutate(activity.id, {
+      onSuccess: () => {
+        setConfirmOpen(false);
+        router.push(`/explore/${activity.id}/confirm`);
+      },
+      onError: (error) => {
+        toast.error(error.message || "Gagal menyimpan pilihan, coba lagi");
+      },
+    });
+  }
+
+  function handleConfirmCancel() {
+    cancelSelection.mutate(undefined, {
+      onSuccess: () => setCancelOpen(false),
+      onError: () => toast.error("Gagal membatalkan pilihan"),
+    });
+  }
 
   if (isLoading) {
     return (
@@ -56,7 +93,6 @@ export default function ActivityDetailPage() {
     );
   }
 
-  const currentSelectionId = selectionState?.selection?.activityId;
   const isOwnSelection = currentSelectionId === activity.id;
   const hasOtherSelection = !!currentSelectionId && !isOwnSelection;
   const isOpenMarked = selectionState?.openMarks.includes(activity.id) ?? false;
@@ -128,17 +164,39 @@ export default function ActivityDetailPage() {
           <Badge variant="success" className="w-fit">
             ✓ Aktivitas Terpilih
           </Badge>
-          <Button
-            variant="destructive"
-            disabled={cancelSelection.isPending}
-            onClick={() =>
-              cancelSelection.mutate(undefined, {
-                onError: () => toast.error("Gagal membatalkan pilihan"),
-              })
-            }
-          >
-            Batalkan Pilihan
-          </Button>
+          <Dialog open={cancelOpen} onOpenChange={setCancelOpen}>
+            <Button
+              variant="destructive"
+              onClick={() => setCancelOpen(true)}
+            >
+              Batalkan Pilihan
+            </Button>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Batalkan Pilihan?</DialogTitle>
+                <DialogDescription>
+                  Slot Anda di <strong>{activity.name}</strong> akan
+                  dilepas dan bisa diambil karyawan lain.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button
+                  variant="outline"
+                  onClick={() => setCancelOpen(false)}
+                  disabled={cancelSelection.isPending}
+                >
+                  Batal
+                </Button>
+                <Button
+                  variant="destructive"
+                  disabled={cancelSelection.isPending}
+                  onClick={handleConfirmCancel}
+                >
+                  {cancelSelection.isPending ? "Membatalkan..." : "Ya, Batalkan"}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
       ) : quotaFull ? (
         <div className="flex flex-col gap-2">
@@ -150,9 +208,67 @@ export default function ActivityDetailPage() {
           </Button>
         </div>
       ) : (
-        <Button size="lg" render={<Link href={`/explore/${activity.id}/choose`} />} nativeButton={false}>
-          {hasOtherSelection ? "Ganti ke Aktivitas Ini" : "Pilih Aktivitas Ini"}
-        </Button>
+        <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+          <Button size="lg" onClick={() => setConfirmOpen(true)}>
+            {hasOtherSelection ? "Ganti ke Aktivitas Ini" : "Pilih Aktivitas Ini"}
+          </Button>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Konfirmasi Pilihan</DialogTitle>
+              <DialogDescription>
+                Setiap karyawan hanya dapat memilih satu aktivitas berkuota.
+                Kamu bisa mengganti pilihan kapan saja selama kuota tujuan
+                masih tersedia.
+              </DialogDescription>
+            </DialogHeader>
+
+            <Card>
+              <CardHeader>
+                <div className="mb-1 flex size-11 items-center justify-center rounded-xl bg-highlight text-highlight-foreground">
+                  <span className="text-lg leading-none">
+                    {activity.icon || "🏷️"}
+                  </span>
+                </div>
+                <CardTitle>{activity.name}</CardTitle>
+                <CardDescription>
+                  {activity.timeWindow} · {activity.location}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Badge>
+                  {activity.quotaTaken}/{activity.quota} slot terisi
+                </Badge>
+              </CardContent>
+            </Card>
+
+            {hasOtherSelection && currentActivity && (
+              <div className="flex items-start gap-3 rounded-xl bg-warning/10 p-4 text-sm text-warning">
+                <ArrowLeftRight className="size-5 shrink-0" />
+                <p>
+                  Anda akan berpindah dari <strong>{currentActivity.name}</strong>{" "}
+                  ke <strong>{activity.name}</strong>. Slot Anda di{" "}
+                  {currentActivity.name} akan dilepas.
+                </p>
+              </div>
+            )}
+
+            <DialogFooter>
+              <Button
+                variant="outline"
+                onClick={() => setConfirmOpen(false)}
+                disabled={selectActivity.isPending}
+              >
+                Batal
+              </Button>
+              <Button
+                disabled={selectActivity.isPending}
+                onClick={handleConfirmSelect}
+              >
+                {selectActivity.isPending ? "Menyimpan..." : "Konfirmasi Pilihan"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       )}
     </div>
   );
