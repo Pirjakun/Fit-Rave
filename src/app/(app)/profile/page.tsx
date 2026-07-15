@@ -103,16 +103,17 @@ export default function ProfilePage() {
           <Avatar size="lg">
             <AvatarFallback>{employee.avatarInitial}</AvatarFallback>
           </Avatar>
-          <div className="flex-1">
-            <p className="font-heading font-semibold text-foreground">
+          <div className="min-w-0 flex-1">
+            <p className="truncate font-heading font-semibold text-foreground">
               {employee.name}
             </p>
-            <p className="text-sm text-muted-foreground">{employee.email}</p>
+            <p className="truncate text-sm text-muted-foreground">{employee.email}</p>
           </div>
           <Button
             type="button"
             variant="ghost"
             size="icon-sm"
+            className="shrink-0"
             aria-label="Ubah nama"
             onClick={() => setEditOpen(true)}
           >
