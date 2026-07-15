@@ -210,7 +210,7 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   aria-invalid={!!passwordError}
-                  className="bg-white/90 border-white/40 pr-8"
+                  className="bg-white/90 border-white/40 pr-8 [&::-ms-clear]:hidden [&::-ms-reveal]:hidden"
                 />
                 <button
                   type="button"
