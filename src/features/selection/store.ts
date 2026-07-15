@@ -1,6 +1,5 @@
 import { FieldValue } from "firebase-admin/firestore";
 import { getDb } from "@/lib/firebase-admin";
-import { REGISTRATION_DEADLINE } from "@/features/event/data";
 import type { Activity } from "@/features/activities/types";
 import type { Selection, SelectionState } from "./types";
 
@@ -14,11 +13,7 @@ const activityRef = (id: string) => getDb().collection("activities").doc(id);
 const selectionRef = (employeeId: string) =>
   getDb().collection("selectionState").doc(employeeId);
 
-export type SelectionErrorCode =
-  | "QUOTA_FULL"
-  | "DEADLINE_PASSED"
-  | "NOT_FOUND"
-  | "INVALID_CATEGORY";
+export type SelectionErrorCode = "QUOTA_FULL" | "NOT_FOUND" | "INVALID_CATEGORY";
 
 export class SelectionError extends Error {
   constructor(
@@ -26,15 +21,6 @@ export class SelectionError extends Error {
     message: string,
   ) {
     super(message);
-  }
-}
-
-function assertBeforeDeadline() {
-  if (new Date() > REGISTRATION_DEADLINE) {
-    throw new SelectionError(
-      "DEADLINE_PASSED",
-      `Pendaftaran ditutup pada ${REGISTRATION_DEADLINE.toLocaleString("id-ID")}`,
-    );
   }
 }
 
@@ -77,8 +63,6 @@ export async function selectActivity(
     const selectionSnap = await tx.get(selectionRef(employeeId));
     const current = selectionSnap.data() as SelectionDoc | undefined;
     if (current?.activityId === activityId) return;
-
-    assertBeforeDeadline();
 
     if (target.quotaTaken >= (target.quota ?? Infinity)) {
       throw new SelectionError("QUOTA_FULL", "Kuota aktivitas ini sudah penuh");

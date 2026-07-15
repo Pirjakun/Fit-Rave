@@ -4,9 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { authedFetch } from "@/lib/api-client";
 import type { EventInfo } from "./types";
 
-type EventResponse = EventInfo & { registrationDeadline: string };
-
-async function fetchEvent(): Promise<EventResponse> {
+async function fetchEvent(): Promise<EventInfo> {
   const res = await authedFetch("/api/event");
   if (!res.ok) throw new Error("Gagal memuat info acara");
   const data = await res.json();

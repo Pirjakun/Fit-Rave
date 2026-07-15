@@ -12,7 +12,7 @@ const faqs = [
   },
   {
     q: "Bisakah saya mengganti pilihan setelah konfirmasi?",
-    a: "Bisa, selama kuota aktivitas tujuan masih tersedia dan sebelum pendaftaran ditutup. Slot lamamu otomatis dilepas begitu kamu berpindah ke aktivitas baru.",
+    a: "Bisa, selama kuota aktivitas tujuan masih tersedia. Slot lamamu otomatis dilepas begitu kamu berpindah ke aktivitas baru.",
   },
   {
     q: "Apa yang terjadi jika kuota aktivitas sudah penuh?",
@@ -20,7 +20,7 @@ const faqs = [
   },
   {
     q: "Sampai kapan saya bisa memilih atau mengganti aktivitas?",
-    a: "Pendaftaran ditutup H-3 sebelum Fit Rave berlangsung. Setelah lewat, tombol pilih/ganti akan otomatis dikunci.",
+    a: "Kamu bisa memilih atau mengganti aktivitas kapan saja selama kuota tujuan masih tersedia, tidak ada batas waktu pendaftaran.",
   },
 ];
 

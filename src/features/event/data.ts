@@ -12,5 +12,3 @@ export async function getEventInfo(): Promise<EventInfo> {
 export async function updateEventInfo(next: EventInfo): Promise<void> {
   await eventDoc().set(next);
 }
-
-export const REGISTRATION_DEADLINE = new Date("2026-07-14T23:59:59+07:00");

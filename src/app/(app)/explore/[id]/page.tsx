@@ -15,7 +15,6 @@ import {
   useSelectionState,
   useToggleOpenMark,
 } from "@/features/selection/hooks";
-import { useEventInfo } from "@/features/event/hooks";
 
 export default function ActivityDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -24,7 +23,6 @@ export default function ActivityDetailPage() {
 
   const { data: activity, isLoading, isError, refetch } = useActivity(id);
   const { data: selectionState } = useSelectionState(employeeId);
-  const { data: event } = useEventInfo();
   const cancelSelection = useCancelSelection(employeeId);
   const toggleOpenMark = useToggleOpenMark(employeeId);
 
@@ -66,8 +64,6 @@ export default function ActivityDetailPage() {
     activity.category === "segmented" &&
     activity.quotaTaken >= (activity.quota ?? 0) &&
     !isOwnSelection;
-  const deadlinePassed = event ? new Date() > new Date(event.registrationDeadline) : false;
-
   return (
     <div className="flex flex-col gap-5 px-4 pt-6 pb-4 sm:px-6">
       <div className="flex size-14 items-center justify-center rounded-2xl bg-highlight text-highlight-foreground">
@@ -127,17 +123,6 @@ export default function ActivityDetailPage() {
         >
           {isOpenMarked ? "✓ Ditandai Ikut" : "Tandai Ikut"}
         </Button>
-      ) : deadlinePassed ? (
-        <div className="flex flex-col gap-2">
-          <Badge variant="warning" className="w-fit">
-            Pendaftaran Ditutup
-          </Badge>
-          <p className="text-sm text-muted-foreground">
-            Pendaftaran ditutup pada{" "}
-            {event && new Date(event.registrationDeadline).toLocaleString("id-ID")}
-            .
-          </p>
-        </div>
       ) : isOwnSelection ? (
         <div className="flex flex-col gap-2">
           <Badge variant="success" className="w-fit">

@@ -86,8 +86,7 @@ export default function ChooseActivityPage() {
 
       <p className="text-sm text-muted-foreground">
         Setiap karyawan hanya dapat memilih satu aktivitas berkuota. Kamu bisa
-        mengganti pilihan kapan saja selama kuota tujuan masih tersedia dan
-        sebelum pendaftaran ditutup.
+        mengganti pilihan kapan saja selama kuota tujuan masih tersedia.
       </p>
 
       {errorMessage && (
