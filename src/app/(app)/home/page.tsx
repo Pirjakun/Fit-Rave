@@ -117,7 +117,7 @@ export default function HomePage() {
             <Link href="/schedule">
               <Card
                 className={cn(
-                  "relative overflow-hidden bg-linear-to-br from-primary to-secondary text-primary-foreground",
+                  "relative overflow-hidden bg-linear-to-br from-primary to-secondary text-white",
                   isFitRaveLive && "ring-2 ring-white/70 ring-offset-2 ring-offset-background"
                 )}
               >

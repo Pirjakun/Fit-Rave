@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ChevronRight, HelpCircle, LogOut, Pencil } from "lucide-react";
+import { ChevronRight, HelpCircle, LogOut, Moon, Pencil } from "lucide-react";
 import { toast } from "sonner";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { useAuth } from "@/features/auth/context";
 import { useUpdateName } from "@/features/auth/hooks";
 
@@ -138,6 +139,12 @@ export default function ProfilePage() {
             <span className="flex-1">FAQ</span>
             <ChevronRight className="size-4 text-muted-foreground" />
           </Link>
+          <Separator />
+          <div className="flex items-center gap-3 py-3 text-sm font-medium text-foreground">
+            <Moon className="size-5 text-secondary" />
+            <span className="flex-1">Tema</span>
+            <ThemeToggle />
+          </div>
           <Separator />
           <button
             type="button"

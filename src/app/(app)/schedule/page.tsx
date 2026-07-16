@@ -12,7 +12,9 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useEventInfo } from "@/features/event/hooks";
+import { isAgendaItemLive, useNow } from "@/features/event/schedule-time";
 import type { Dresscode, EventAgendaItem } from "@/features/event/types";
+import { cn } from "@/lib/utils";
 
 function DresscodeSection({
   dresscode,
@@ -27,15 +29,9 @@ function DresscodeSection({
 
   const isInverted = variant === "inverted";
   const borderClass = isInverted ? "border-white/20" : "border-border";
-  const labelClass = isInverted
-    ? "text-primary-foreground"
-    : "text-foreground";
-  const noteClass = isInverted
-    ? "text-primary-foreground/70"
-    : "text-muted-foreground";
-  const listClass = isInverted
-    ? "text-primary-foreground/90"
-    : "text-muted-foreground";
+  const labelClass = isInverted ? "text-white" : "text-foreground";
+  const noteClass = isInverted ? "text-white/70" : "text-muted-foreground";
+  const listClass = isInverted ? "text-white/90" : "text-muted-foreground";
 
   return (
     <div className={`mt-3 flex flex-col gap-2 border-t pt-3 ${borderClass}`}>
@@ -54,9 +50,23 @@ function DresscodeSection({
   );
 }
 
-function AgendaItemCard({ item }: { item: EventAgendaItem }) {
+function AgendaItemCard({
+  item,
+  date,
+  now,
+}: {
+  item: EventAgendaItem;
+  date: string;
+  now: Date;
+}) {
+  const isLive = isAgendaItemLive(date, item.timeStart, item.timeEnd, now);
+
   return (
-    <Card>
+    <Card
+      className={cn(
+        isLive && "ring-2 ring-highlight/60 ring-offset-2 ring-offset-background",
+      )}
+    >
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle>{item.title}</CardTitle>
@@ -64,6 +74,12 @@ function AgendaItemCard({ item }: { item: EventAgendaItem }) {
             {item.status === "confirmed" ? "Confirmed" : "Detail Menyusul"}
           </Badge>
         </div>
+        {isLive && (
+          <span className="inline-flex w-fit items-center gap-1 rounded-full bg-highlight/15 px-2 py-0.5 text-[10px] font-semibold text-highlight-foreground">
+            <span className="size-1.5 animate-pulse rounded-full bg-highlight" />
+            Sedang Berlangsung
+          </span>
+        )}
         <CardDescription>
           {item.timeStart} – {item.timeEnd}
           {item.venue ? ` · ${item.venue}` : ""}
@@ -81,6 +97,7 @@ function AgendaItemCard({ item }: { item: EventAgendaItem }) {
 
 export default function EventSchedulePage() {
   const { data: event, isLoading, isError, refetch } = useEventInfo();
+  const now = useNow();
 
   return (
     <div className="flex flex-col gap-6 px-4 pt-6 pb-4 sm:px-6">
@@ -120,20 +137,20 @@ export default function EventSchedulePage() {
               </h2>
               <Badge variant="outline">Info Only</Badge>
             </div>
-            <Card className="overflow-hidden bg-linear-to-br from-secondary to-primary text-primary-foreground">
+            <Card className="overflow-hidden bg-linear-to-br from-secondary to-primary text-white">
               <CardHeader>
                 <div className="mb-1 flex size-11 items-center justify-center rounded-xl bg-white/20">
                   <Sparkles className="size-5" />
                 </div>
-                <CardTitle className="text-primary-foreground">
+                <CardTitle className="text-white">
                   {event.day1.title}
                 </CardTitle>
-                <CardDescription className="text-primary-foreground/85">
+                <CardDescription className="text-white/85">
                   {event.day1.time}
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-primary-foreground/90">
+                <p className="text-sm text-white/90">
                   {event.day1.description}
                 </p>
                 <DresscodeSection
@@ -149,7 +166,12 @@ export default function EventSchedulePage() {
                   Kegiatan Hari 1
                 </h3>
                 {event.day1.agenda.map((item) => (
-                  <AgendaItemCard key={item.id} item={item} />
+                  <AgendaItemCard
+                    key={item.id}
+                    item={item}
+                    date={event.day1.date}
+                    now={now}
+                  />
                 ))}
               </div>
             )}
@@ -159,17 +181,17 @@ export default function EventSchedulePage() {
             <h2 className="font-heading text-lg font-semibold text-foreground">
               Day 2 · {event.day2.date}
             </h2>
-            <Card className="overflow-hidden bg-linear-to-br from-primary to-secondary text-primary-foreground">
+            <Card className="overflow-hidden bg-linear-to-br from-primary to-secondary text-white">
               <CardHeader>
                 <div className="mb-1 flex size-11 items-center justify-center rounded-xl bg-white/20">
                   <Sun className="size-5" />
                 </div>
-                <CardTitle className="text-primary-foreground">
+                <CardTitle className="text-white">
                   {event.day2.title}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-primary-foreground/90">
+                <p className="text-sm text-white/90">
                   {event.day2.description}
                 </p>
               </CardContent>
@@ -181,7 +203,12 @@ export default function EventSchedulePage() {
                   Kegiatan Hari 2
                 </h3>
                 {event.day2.agenda.map((item) => (
-                  <AgendaItemCard key={item.id} item={item} />
+                  <AgendaItemCard
+                    key={item.id}
+                    item={item}
+                    date={event.day2.date}
+                    now={now}
+                  />
                 ))}
               </div>
             )}

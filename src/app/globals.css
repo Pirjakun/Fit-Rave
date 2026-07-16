@@ -95,43 +95,43 @@
 }
 
 .dark {
-  /* dark (night beach) theme */
-  --background: #0b1d2a; /* deep ocean navy */
-  --foreground: #f1f5f9;
-  --card: #102a3b;
-  --card-foreground: #f1f5f9;
-  --popover: #102a3b;
-  --popover-foreground: #f1f5f9;
-  --primary: #38bdf8;
-  --primary-foreground: #0b1d2a;
-  --secondary: #2dd4bf;
-  --secondary-foreground: #0b1d2a;
-  --muted: #16354a;
-  --muted-foreground: #93a5b8;
-  --accent: #fb923c;
-  --accent-foreground: #0b1d2a;
+  /* dark (night beach) theme: moonlit indigo sky + seafoam water + torchlight glow */
+  --background: #0c1a2b; /* midnight ocean sky */
+  --foreground: #eef4f8; /* moonlit white */
+  --card: #142c42; /* moonlit water surface */
+  --card-foreground: #eef4f8;
+  --popover: #142c42;
+  --popover-foreground: #eef4f8;
+  --primary: #5fc6ef; /* moonlight on water */
+  --primary-foreground: #072436;
+  --secondary: #38d9c4; /* seafoam teal */
+  --secondary-foreground: #05221d;
+  --muted: #17324a;
+  --muted-foreground: #93a8c2;
+  --accent: #f2a35d; /* tiki torch amber */
+  --accent-foreground: #2a1608;
   --destructive: #f87171;
-  --border: color-mix(in oklch, white 12%, transparent);
-  --input: color-mix(in oklch, white 14%, transparent);
-  --ring: #38bdf8;
-  --highlight: #fcd34d;
-  --highlight-foreground: #451a03;
+  --border: color-mix(in oklch, white 10%, transparent);
+  --input: color-mix(in oklch, white 13%, transparent);
+  --ring: #5fc6ef;
+  --highlight: #f6ce6f; /* string-light glow */
+  --highlight-foreground: #3a2504;
   --success: #34d399;
   --warning: #fbbf24;
   --urgent: #fb7185;
-  --chart-1: #38bdf8;
-  --chart-2: #2dd4bf;
-  --chart-3: #fb923c;
-  --chart-4: #fcd34d;
-  --chart-5: #93a5b8;
-  --sidebar: #102a3b;
-  --sidebar-foreground: #f1f5f9;
-  --sidebar-primary: #38bdf8;
-  --sidebar-primary-foreground: #0b1d2a;
-  --sidebar-accent: #16354a;
-  --sidebar-accent-foreground: #f1f5f9;
-  --sidebar-border: color-mix(in oklch, white 12%, transparent);
-  --sidebar-ring: #38bdf8;
+  --chart-1: #5fc6ef;
+  --chart-2: #38d9c4;
+  --chart-3: #f2a35d;
+  --chart-4: #f6ce6f;
+  --chart-5: #93a8c2;
+  --sidebar: #142c42;
+  --sidebar-foreground: #eef4f8;
+  --sidebar-primary: #5fc6ef;
+  --sidebar-primary-foreground: #072436;
+  --sidebar-accent: #17324a;
+  --sidebar-accent-foreground: #eef4f8;
+  --sidebar-border: color-mix(in oklch, white 10%, transparent);
+  --sidebar-ring: #5fc6ef;
 }
 
 @layer base {
